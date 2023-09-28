@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metdata</title>
+     <style>
+
+
+body {
+
+  background: #27272c;
+}
+
+button {
+  position: relative;
+  background: #444;
+  color: black;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+}
+
+button:hover {
+  letter-spacing: 0.2rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--clr);
+  color: var(--clr);
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background:whitesmoke;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+
+
+
+
+        /* Container styles */
+        .conta {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        /* Section styles */
+        .column {
+            flex-basis: calc(50% - 20px);
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+    #exif-data {
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    #exif-data h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+        color: #333;
+        font-family: Arial, sans-serif; /* Change the font family */
+        border: 1px solid #ddd; /* Add borders to cells */
+    }
+
+    th {
+        background-color: #007BFF;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e0e0e0;
+        transition: background-color 0.3s;
+    }
+
+    td:first-child {
+        font-weight: bold;
+        width: 30%;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+
+        #buttons {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+
+
+
+        /* Image styles */
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        /* Error message styles */
+        #error {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+       header {
+        background-color: #007BFF;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        header h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+    /* Submitted image and date styles */
+    #submitted-image {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #submitted-image img {
+        width: 120px;
+        height: 120px;
+
+        margin-right: 20px;
+    }
+
+    #submitted-image h5 {
+        font-size: 16px;
+        margin: 0;
+        color:#3a87ad;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Metadata Viewer</h1>
+    </header>
+
+    <!-- Display the modified image with the submission date -->
+<div id="submitted-image" >
+    <img src="{{ url_for('static', filename='uploaded.jpg') }}" alt="Submitted Image" style="max-width: 50%;">
+    <h5 >Submitted at: {{date}}</h5>
+</div>
+
+
+     <div id="buttons">
+        <!-- Create buttons for each section -->
+         <button  style="--clr:#39FF14" onclick="showSection('exif-data')"><span>EXIF Data</span><i></i></button>
+        <button style="--clr:#FF44CC" onclick="showSection('location')"><span>Location</span><i></i></button>
+         <button  style="--clr:#0FF0FC" onclick="showSection('thumbnail-difference')"><span>Thumbnail Analysis</span><i></i></button>
+         <button style="--clr:#8A2BE2" onclick="showSection('generated-content')"><span>Generated Content</span><i></i></button>
+    </div>
+    <!-- EXIF Data -->
+    <div id="exif-data" >
+        <h1>EXIF Full Dump</h1>
+        <table>
+            <tr>
+                <th>Group</th>
+                <th>Description : Value</th>
+
+            </tr>
+            {% for group,values in exif_data.items() %}
+                <tr>
+                    <td ><b>{{group}}</b></td>
+                    <td>
+                    {% for desc,val in values %}
+
+                    <p> <b>{{desc}}</b> : {{val}}</p>
+                    <hr>
+                    {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Location -->
+    <div id="location" style="display:none;">
+        <h1>GeoLocation Data</h1>
+        {% if geoerror %}
+            <div id="error">{{ geoerror }}</div>
+        {% else %}
+
+            <div id="error">{{google_maps_url }}</div>
+        {% endif %}
+
+    </div>
+
+    <div id="thumbnail-difference" style="display:none;">
+        <h1>Thumbnail Analysis</h1>
+        <div class="conta">
+            {% if thumberror %}
+                <div id="error">{{ thumberror }}</div>
+            {% else %}
+                <div class="column">
+                    <h3>Thumbnail Image</h3>
+                    <img src="{{ url_for('static', filename='thumbnail.jpg') }}" alt="Thumbnail">
+                </div>
+                <div class="column">
+                    <h3>Difference Image</h3>
+                    <img src="{{ url_for('static', filename='difference.jpg') }}" alt="Difference">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- Generated HTML Content -->
+    <div id="generated-content" style="display:none;">
+         <h1>Header Structure</h1>
+        {{ generated_html_content|safe }}
+    </div>
+<script>
+        // Modify the showSection function to open Google Maps in a new tab
+function showSection(sectionId) {
+    var sections = ["exif-data", "location", "thumbnail-difference", "generated-content"];
+
+    // Check if the sectionId is "location"
+    if (sectionId === "location") {
+         {% if maps_url %}
+        var googleMapsUrl = "{{ maps_url }}";
+        window.open(googleMapsUrl, '_blank');
+         {% endif %}
+    }
+        // Hide all sections except the selected one
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i] === sectionId) {
+                document.getElementById(sectionId).style.display = "block";
+            } else {
+                document.getElementById(sections[i]).style.display = "none";
+            }
+        }
+}
+
+    </script>
+
+</body>
+</html>
