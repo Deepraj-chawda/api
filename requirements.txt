@@ -1,4 +1,4 @@
-tensorflow==2.11.1
+tensorflow
 astor==0.8.1
 concurrent-iterator==0.2.6
 keras-applications==1.0.8
